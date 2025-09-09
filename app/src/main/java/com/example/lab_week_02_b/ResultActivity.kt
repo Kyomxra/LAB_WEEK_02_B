@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.app.Activity
 import android.content.Intent
+import android.widget.Button
 
 
 class ResultActivity : AppCompatActivity() {
@@ -28,16 +29,14 @@ class ResultActivity : AppCompatActivity() {
                 findViewById<ConstraintLayout>(R.id.background_screen)
 
             try {
-                // coba parse warna, kalau invalid bakal lempar IllegalArgumentException
                 backgroundScreen.setBackgroundColor(Color.parseColor("#$colorCode"))
             } catch (ex: IllegalArgumentException) {
-                // kirim balik error ke MainActivity
                 Intent().let { errorIntent ->
                     errorIntent.putExtra(ERROR_KEY, true)
                     setResult(Activity.RESULT_OK, errorIntent)
                     finish()
                 }
-                return   // penting → supaya kode di bawah tidak dijalankan
+                return
             }
 
             val resultMessage =
@@ -46,6 +45,11 @@ class ResultActivity : AppCompatActivity() {
                 R.string.color_code_result_message,
                 colorCode?.uppercase()
             )
+        }
+
+
+        findViewById<Button>(R.id.back_button).setOnClickListener {
+            finish()
         }
     }
 }
